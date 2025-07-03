@@ -10,6 +10,6 @@ class MessageHandler
 {
     public function __invoke(Message $message)
     {
-        dump('Received: ' . $message->content);
+        dump('Received in View Service: ' . $message->content);
     }
 }
