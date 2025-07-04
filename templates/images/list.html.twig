@@ -5,4 +5,15 @@
 {% block body %}
     <h2>Images {{ dump(images) }}</h2>
 
+    {% if images is not empty %}
+        {% for image in images %}
+            <div class="image-container">
+                <h2>Image #{{ image.id }}</h2>
+                <img src="{{ image.path }}/{{ image.filename }}" alt="{{ image.filename }}">
+            </div>
+        {% endfor %}
+    {% else %}
+        <h3 class="no-images">No images found.</h3>
+    {% endif %}
+
 {% endblock %}
