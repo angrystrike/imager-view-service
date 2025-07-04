@@ -11,15 +11,14 @@ $(document).ready(function() {
            },
            error: function(xhr, status, error) {
                console.error('AJAX request failed:', status, error, xhr);
-               alert('AJAX Failed! Check console for errors.');
            }
        });
    });
 
-    const channel = pusher.subscribe('my-channel');
+    const channel = pusher.subscribe('file-upload-info');
 
-    channel.bind('my-event', function(data) {
-        console.log('HELLO FROM SOCKETS', data)
+    channel.bind_global(function(eventName, data) {
+        console.log(data.text)
     });
 
     $('#imageUploadForm').on('submit', function(e) {
@@ -34,11 +33,8 @@ $(document).ready(function() {
             processData: false,
             contentType: false,
             success: function(response) {
-                $('#uploadStatus').text('Upload successful: ' + response.message);
-                console.log('Image upload successful:', response);
             },
             error: function(xhr, status, error) {
-                $('#uploadStatus').text('Upload failed: ' + xhr.responseJSON.message);
                 console.error('Image upload failed:', status, error, xhr);
             }
         });

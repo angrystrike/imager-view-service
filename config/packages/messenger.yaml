@@ -23,6 +23,7 @@ framework:
             Symfony\Component\Notifier\Message\SmsMessage: async
 
             'App\MessageBus\Messages\Message': async
+            'App\MessageBus\Messages\File': async
 
             # Route your messages to the transports
             # 'App\Message\YourMessage': async
