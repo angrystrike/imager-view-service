@@ -19,4 +19,10 @@ class ImageController extends AbstractController
             'images' => $response->toArray(),
         ]);
     }
+
+    #[Route('/', methods: ['GET'])]
+    public function index()
+    {
+        return $this->render('index.html.twig', []);
+    }
 }
