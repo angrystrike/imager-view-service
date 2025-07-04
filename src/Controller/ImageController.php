@@ -3,11 +3,23 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ImageController extends AbstractController
 {
+    private string $shared_dir;
+    private Filesystem $file_system;
+
+    public function __construct(Filesystem $file_system)
+    {
+        $this->shared_dir = '/var/www/shared-data';
+        $this->file_system = $file_system;
+    }
+
     #[Route('/images', methods: ['GET'])]
     public function images()
     {
@@ -24,5 +36,25 @@ class ImageController extends AbstractController
     public function index()
     {
         return $this->render('index.html.twig', []);
+    }
+
+    #[Route('/upload', methods: ['POST'])]
+    public function upload(Request $request): JsonResponse
+    {
+        $uploaded_file = $request->files->get('image');
+
+        $new_filename = uniqid() . '.' . $uploaded_file->guessExtension();
+
+        $this->file_system->mkdir($this->shared_dir);
+        $uploaded_file->move(
+            $this->shared_dir,
+            $new_filename
+        );
+
+        return new JsonResponse([
+            'message' => 'Image uploaded successfully!',
+            'filename' => $new_filename,
+            'path' => '/shared_data/' . $new_filename
+        ]);
     }
 }

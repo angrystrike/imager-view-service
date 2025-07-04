@@ -21,4 +21,26 @@ $(document).ready(function() {
     channel.bind('my-event', function(data) {
         console.log('HELLO FROM SOCKETS', data)
     });
+
+    $('#imageUploadForm').on('submit', function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+
+        $.ajax({
+            url: '/upload',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                $('#uploadStatus').text('Upload successful: ' + response.message);
+                console.log('Image upload successful:', response);
+            },
+            error: function(xhr, status, error) {
+                $('#uploadStatus').text('Upload failed: ' + xhr.responseJSON.message);
+                console.error('Image upload failed:', status, error, xhr);
+            }
+        });
+    });
 });

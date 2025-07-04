@@ -5,4 +5,9 @@
 {% block body %}
     <h2 class="test">Upload Image</h2>
 
+    <form id="imageUploadForm" enctype="multipart/form-data">
+        <input type="file" name="image" id="imageInput" accept="image/*">
+        <button type="submit">Upload Image</button>
+    </form>
+    <div id="uploadStatus"></div>
 {% endblock %}
