@@ -18,7 +18,7 @@ $(document).ready(function() {
     const channel = pusher.subscribe('file-upload-info');
 
     channel.bind_global(function(eventName, data) {
-        console.log(data.text)
+        console.log(data)
     });
 
     $('#imageUploadForm').on('submit', function(e) {
