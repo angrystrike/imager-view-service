@@ -15,10 +15,19 @@ $(document).ready(function() {
        });
    });
 
-    const channel = pusher.subscribe('file-upload-info');
-
-    channel.bind_global(function(eventName, data) {
+    const infoChannel = pusher.subscribe('file-upload-info');
+    infoChannel.bind_global(function(eventName, data) {
         console.log(data)
+    });
+
+    const newImagesChannel = pusher.subscribe('new-images');
+    newImagesChannel.bind('image-uploaded', function(data) {
+        $('.js-images-container').append(`
+            <div class="image-container">
+                <h2>Image new</h2>
+                <img src="${data.url}" alt="new image">
+            </div>
+        `);
     });
 
     $('#imageUploadForm').on('submit', function(e) {
